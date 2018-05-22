@@ -6,3 +6,4 @@ obj
 Obj
 *.suo
 output/*
+packages/*

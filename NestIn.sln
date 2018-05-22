@@ -1,37 +1,34 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NestIn", "NestIn\NestIn.csproj", "{9F7D370D-31C0-452F-BF38-10F628C56752}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NestIn.Tests", "NestIn.Tests\NestIn.Tests.csproj", "{F47DFF2E-4C47-4DCE-9E8B-286A0A185F3D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NestIn.Installer", "NestIn.Installer\NestIn.Installer.csproj", "{D343D322-FBC2-4B5F-A656-399FC8814509}"
-EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = NestIn.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9F7D370D-31C0-452F-BF38-10F628C56752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F7D370D-31C0-452F-BF38-10F628C56752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F7D370D-31C0-452F-BF38-10F628C56752}.Debug|x86.ActiveCfg = Debug|x86
+		{9F7D370D-31C0-452F-BF38-10F628C56752}.Debug|x86.Build.0 = Debug|x86
 		{9F7D370D-31C0-452F-BF38-10F628C56752}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F7D370D-31C0-452F-BF38-10F628C56752}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D343D322-FBC2-4B5F-A656-399FC8814509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D343D322-FBC2-4B5F-A656-399FC8814509}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D343D322-FBC2-4B5F-A656-399FC8814509}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D343D322-FBC2-4B5F-A656-399FC8814509}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F47DFF2E-4C47-4DCE-9E8B-286A0A185F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F47DFF2E-4C47-4DCE-9E8B-286A0A185F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F47DFF2E-4C47-4DCE-9E8B-286A0A185F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F47DFF2E-4C47-4DCE-9E8B-286A0A185F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F7D370D-31C0-452F-BF38-10F628C56752}.Release|x86.ActiveCfg = Release|x86
+		{9F7D370D-31C0-452F-BF38-10F628C56752}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2B0CCA4-A613-4CA9-92A5-05C8D9992CE6}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = NestIn.vsmdi
 	EndGlobalSection
 EndGlobal

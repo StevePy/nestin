@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell;
+using System;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
-using System.Threading;
-using EnvDTE;
-using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
 
 namespace NestIn
 {
@@ -34,8 +27,27 @@ namespace NestIn
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(GuidList.guidNestInPkgString)]
+    [ProvideOptionPage(typeof(NestInOptionsPage), "NestIn", "NestIn Options", 0, 0, true)]
     public sealed class NestInPackage : Package
     {
+
+        public DefaultSelectionModeOptions DefaultSelectionMode
+        {
+            get
+            {
+                NestInOptionsPage page = (NestInOptionsPage)GetDialogPage(typeof(NestInOptionsPage));
+                return page.DefaultSelectedItem;
+            }
+        }
+        public bool ShouldPromptForDefaultRoot
+        {
+            get
+            {
+                NestInOptionsPage page = (NestInOptionsPage)GetDialogPage(typeof(NestInOptionsPage));
+                return page.ShouldPromptForDefaultRoot;
+            }
+        }
+
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -48,7 +60,7 @@ namespace NestIn
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
         }
 
-		/////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////
         // Overriden Package Implementation
         #region Package Members
 
@@ -58,31 +70,31 @@ namespace NestIn
         /// </summary>
         protected override void Initialize()
         {
-            Trace.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if ( null != mcs )
+            if (null != mcs)
             {
                 // Create the command for the menu item.
                 CommandID nestInCommandId = new CommandID(GuidList.guidNestInCmdSet, (int)PkgCmdIDList.cmdidMyCommand);
-                MenuCommand nestIn = new MenuCommand(NestInCallback, nestInCommandId );
-                mcs.AddCommand( nestIn );
+                MenuCommand nestIn = new MenuCommand(NestInCallback, nestInCommandId);
+                mcs.AddCommand(nestIn);
 
-				CommandID unNestCommandId = new CommandID(GuidList.guidNestInCmdSet, (int)PkgCmdIDList.cmdidMyCommand2);
-				MenuCommand unNestIn = new MenuCommand(UnNestCallback, unNestCommandId);
-				mcs.AddCommand(unNestIn);
+                CommandID unNestCommandId = new CommandID(GuidList.guidNestInCmdSet, (int)PkgCmdIDList.cmdidMyCommand2);
+                MenuCommand unNestIn = new MenuCommand(UnNestCallback, unNestCommandId);
+                mcs.AddCommand(unNestIn);
             }
         }
         #endregion
 
-		private static T GetService<T>() where T : class
-		{
-			return (T) ServiceProvider.GlobalProvider.GetService(typeof(T));
-			//var componentModelService = (IComponentModel)ServiceProvider.GlobalProvider.GetService(typeof(SComponentModel));
-			//return componentModelService.GetService<T>();
-		}
+        private static T GetService<T>() where T : class
+        {
+            return (T)ServiceProvider.GlobalProvider.GetService(typeof(T));
+            //var componentModelService = (IComponentModel)ServiceProvider.GlobalProvider.GetService(typeof(SComponentModel));
+            //return componentModelService.GetService<T>();
+        }
 
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.
@@ -91,25 +103,25 @@ namespace NestIn
         /// </summary>
         private void NestInCallback(object sender, EventArgs e)
         {
-			var rootSelector = new RootSelector();
-        	var envDte = GetService<DTE>();
-        	new Worker(envDte, rootSelector).Nest();
-			rootSelector.Dispose();
+            var rootSelector = new RootSelector();
+            var envDte = GetService<DTE>();
+            new Worker(envDte, rootSelector, DefaultSelectionMode, ShouldPromptForDefaultRoot).Nest();
+            rootSelector.Dispose();
         }
 
 
-		/// <summary>
-		/// This function is the callback used to execute a command when the a menu item is clicked.
-		/// See the Initialize method to see how the menu item is associated to this function using
-		/// the OleMenuCommandService service and the MenuCommand class.
-		/// </summary>
-		private void UnNestCallback(object sender, EventArgs e)
-		{
-			var rootSelector = new RootSelector();
-			var envDte = GetService<DTE>();
-			new Worker(envDte, rootSelector).UnNest();
-			rootSelector.Dispose();
-		}
+        /// <summary>
+        /// This function is the callback used to execute a command when the a menu item is clicked.
+        /// See the Initialize method to see how the menu item is associated to this function using
+        /// the OleMenuCommandService service and the MenuCommand class.
+        /// </summary>
+        private void UnNestCallback(object sender, EventArgs e)
+        {
+            var rootSelector = new RootSelector();
+            var envDte = GetService<DTE>();
+            new Worker(envDte, rootSelector, DefaultSelectionMode, ShouldPromptForDefaultRoot).UnNest();
+            rootSelector.Dispose();
+        }
 
     }
 }
